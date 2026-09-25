@@ -1,0 +1,16 @@
+[build]
+command = """
+export PATH="$PATH:/opt/buildhome/flutter/bin"
+if [ ! -d "/opt/buildhome/flutter" ]; then
+  git clone https://github.com/flutter/flutter.git /opt/buildhome/flutter --depth 1 -b stable
+fi
+flutter config --enable-web
+flutter pub get
+flutter build web --release --dart-define=API_BASE_URL="${API_BASE_URL:-https://nzerudigitasavings-production.up.railway.app/api}"
+"""
+publish = "build/web"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
