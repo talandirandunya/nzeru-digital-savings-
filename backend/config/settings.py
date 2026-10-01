@@ -22,7 +22,7 @@ def _csv_env(name: str) -> list[str]:
 DEFAULT_FRONTEND_ORIGINS = [
     "https://nzerusavings.netlify.app",
     "https://nzerudigitalsavings.netlify.app",
-    "https://glittering-cobbler-1d32f6.netlify.app",
+    "https://nzeru-savings.netlify.app",
     "http://localhost:3000",
     "http://localhost:8080",
     "http://localhost:8081",
@@ -31,9 +31,7 @@ DEFAULT_FRONTEND_ORIGINS = [
 ]
 
 DEFAULT_BACKEND_ORIGINS = [
-    "https://nzeru-digital-production.up.railway.app",
-    "https://savingsutl-production.up.railway.app",
-    "https://savingsutl-production-bf7e.up.railway.app",
+    "https://nzeru-digital-savings-production.up.railway.app",
 ]
 
 # ── Security ────────────────────────────────────────────────────────────────
@@ -42,8 +40,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'super-long-secret-key-at-least
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = [
-    "nzeru-digital-production.up.railway.app",
-    "savingsutl-production.up.railway.app",
+    "nzeru-digital-savings-production.up.railway.app",
     "*.railway.app",
     "localhost",
     "127.0.0.1",
@@ -51,9 +48,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://nzeru-digital-production.up.railway.app",
-    "https://savingsutl-production.up.railway.app",
-    "https://savingsutl-production-bf7e.up.railway.app",
+    "https://nzeru-digital-savings-production.up.railway.app",
     "https://*.railway.app",
     "https://*.netlify.app",
     "https://*.vercel.app",

@@ -45,21 +45,21 @@ Format: `postgresql://user:password@host:5432/dbname`
 ## Django Settings (Required)
 
 ### 8. ALLOWED_HOSTS
-**Value:** `savingsutl-production.up.railway.app,.railway.app,localhost,127.0.0.1`
+**Value:** `nzeru-digital-savings-production.up.railway.app,.railway.app,localhost,127.0.0.1`
 
 ---
 
 ## CORS & Trusted Origins (Required)
 
-### 9. EXTRA_CORS_ALLOWED_ORIGINS
-**Value:** `https://glittering-cobbler-1d32f6.netlify.app,https://yourdomain.com,https://app.yourdomain.com`
+### 9. CORS_ALLOWED_ORIGINS
+**Value:** `https://nzeru-savings.netlify.app,https://yourdomain.com,https://app.yourdomain.com`
 
 Replace `yourdomain.com` with your actual domain (can be empty if only using Netlify frontend)
 
 ### 10. EXTRA_CSRF_TRUSTED_ORIGINS
-**Value:** `https://glittering-cobbler-1d32f6.netlify.app,https://yourdomain.com,https://app.yourdomain.com`
+**Value:** `https://nzeru-savings.netlify.app,https://yourdomain.com,https://app.yourdomain.com`
 
-Same as EXTRA_CORS_ALLOWED_ORIGINS
+Same frontend origins as CORS_ALLOWED_ORIGINS
 
 ---
 
@@ -88,8 +88,8 @@ When setting up in Railway Dashboard, ensure you have:
 - [ ] DJANGO_SUPERUSER_USERNAME = admin
 - [ ] DJANGO_SUPERUSER_EMAIL = admin@yourdomain.com
 - [ ] DJANGO_SUPERUSER_PASSWORD = [strong password]
-- [ ] ALLOWED_HOSTS = savingsutl-production.up.railway.app,.railway.app,localhost,127.0.0.1
-- [ ] EXTRA_CORS_ALLOWED_ORIGINS = [your frontend URLs]
+- [ ] ALLOWED_HOSTS = nzeru-digital-savings-production.up.railway.app,.railway.app,localhost,127.0.0.1
+- [ ] CORS_ALLOWED_ORIGINS = [your frontend URLs]
 - [ ] EXTRA_CSRF_TRUSTED_ORIGINS = [your frontend URLs]
 - [ ] (Optional) TZ = UTC
 - [ ] (Optional) DJANGO_LOG_LEVEL = INFO

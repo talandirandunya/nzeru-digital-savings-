@@ -40,9 +40,9 @@ Go to: Railway Dashboard → Your Project → Variables
 | `DJANGO_SUPERUSER_USERNAME` | `admin` |
 | `DJANGO_SUPERUSER_EMAIL` | `your-email@example.com` |
 | `DJANGO_SUPERUSER_PASSWORD` | From step 1 above |
-| `ALLOWED_HOSTS` | `savingsutl-production.up.railway.app,.railway.app,localhost,127.0.0.1` |
-| `EXTRA_CORS_ALLOWED_ORIGINS` | `https://glittering-cobbler-1d32f6.netlify.app,https://yourdomain.com` |
-| `EXTRA_CSRF_TRUSTED_ORIGINS` | `https://glittering-cobbler-1d32f6.netlify.app,https://yourdomain.com` |
+| `ALLOWED_HOSTS` | `nzeru-digital-savings-production.up.railway.app,.railway.app,localhost,127.0.0.1` |
+| `CORS_ALLOWED_ORIGINS` | `https://nzeru-savings.netlify.app,https://yourdomain.com` |
+| `EXTRA_CSRF_TRUSTED_ORIGINS` | `https://nzeru-savings.netlify.app,https://yourdomain.com` |
 
 **Optional variables:**
 - `TZ` = `UTC`
@@ -158,7 +158,7 @@ python manage.py runserver
 
 - **Container restarting?** → Check logs for `DATABASE_URL` or `DJANGO_SECRET_KEY`
 - **Static files not found?** → Already configured with WhiteNoise
-- **Login fails?** → Check `EXTRA_CORS_ALLOWED_ORIGINS` matches frontend URL
+- **Login fails?** → Check `CORS_ALLOWED_ORIGINS` matches frontend URL
 - **Superuser exists error?** → Normal on re-deploy, safe to ignore
 - **Database connection error?** → Copy `DATABASE_URL` from Railway dashboard
 
