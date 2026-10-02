@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 18),
                     Text(
-                      'Join Nzelu Digital',
+                      'Join Nzeru Digital',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         fontSize: 26,

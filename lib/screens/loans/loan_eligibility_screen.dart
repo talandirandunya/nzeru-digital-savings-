@@ -59,11 +59,11 @@ class _LoanEligibilityScreenState extends State<LoanEligibilityScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Nzelu Credit',
+                    'Nzeru Credit',
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       letterSpacing: 2.2,
-                      color: const Color(0xFF0ABAB5),
+                      color: AppColors.primaryTiffany,
                     ),
                   ),
                   const SizedBox(height: 4),

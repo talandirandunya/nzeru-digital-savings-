@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Tiffany teal (brand) and variants
-  static const Color primaryTiffany = Color(0xFF14B8A6); // #14B8A6
-  static const Color primaryTiffanyDark = Color(0xFF0E8F83);
-  static const Color primaryTiffanyLight = Color(0xFFDFF9F7);
-  
-  // Accent — remapped to teal so legacy references get brand colour
-  static const Color accentRed = primaryTiffany;
+  // Logo-matched teal and red, retained behind existing palette names.
+  static const Color brandTeal = Color(0xFF007E87);
+  static const Color brandTealDark = Color(0xFF005F69);
+  static const Color brandTealLight = Color(0xFFE1EFF0);
+  static const Color brandRed = Color(0xFFB00018);
+  static const Color brandRedDark = Color(0xFF870014);
+  static const Color brandRedLight = Color(0xFFF9E5E8);
+  static const Color brandRedMuted = Color(0xFFEBC2C8);
+
+  static const Color primaryTiffany = brandTeal;
+  static const Color primaryTiffanyDark = brandTealDark;
+  static const Color primaryTiffanyLight = brandTealLight;
+  static const Color accentRed = brandRed;
 
   static const Color background = Color(0xFFF7F8FA);
   static const Color surface = Color(0xFFFFFFFF);
@@ -32,11 +38,11 @@ class AppColors {
   static const Color warning = Color(0xFFF59E0B);
   static const Color info = primaryTiffany;
   static const Color error = Color(0xFFEF4444);
-  static const Color loadingRed = primaryTiffany;
+  static const Color loadingRed = brandRed;
   static const Color loadingGreen = Color(0xFF22C55E);
-  static const Color faluRed = primaryTiffany;      // legacy alias → teal
+  static const Color faluRed = brandRed;
   static const Color faluMist = primaryTiffanyLight; // legacy alias → teal light
-  static const Color actionRed = Color(0xFFDC2626);
+  static const Color actionRed = brandRed;
   static const Color darkSurfaceAlt = Color(0xFF172133);
 
   static const Color chartPrimary = primaryTiffany;
@@ -61,25 +67,30 @@ class AppColors {
   static const LinearGradient flatSurfaceGradient = LinearGradient(
     colors: [surface, surface],
   );
+  static const LinearGradient brandRedGradient = LinearGradient(
+    colors: [brandRed, brandRedDark],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   static const Color primaryRed = primaryTiffany;
   static const Color secondaryBlue = primaryTiffanyDark;
   static const Color tiffanyBlue = primaryTiffany;
   static const Color tiffanyBlueLight = primaryTiffanyLight;
   static const Color tiffanyBlueDark = primaryTiffanyDark;
-  static const Color tiffanyBlueGlow = Color(0x8CCFF7F5);
-  static const Color tiffanyBlueMuted = Color(0xFFD3F2F0);
+  static const Color tiffanyBlueGlow = Color(0x8C007E87);
+  static const Color tiffanyBlueMuted = Color(0xFFC9E2E4);
   static const Color tiffanyMist = primaryTiffanyLight;
 
   static const Color abyssalTeal = tiffanyBlue;
   static const Color abyssalTealLight = tiffanyBlueLight;
   static const Color abyssalTealMuted = tiffanyBlueMuted;
-  static const Color crimsonBurgundy = error;
-  static const Color crimsonBurgundyLight = error;
-  static const Color crimsonBurgundyMuted = error;
-  static const Color brightCrimson = error;
-  static const Color brightCrimsonLight = error;
-  static const Color brightCrimsonMuted = error;
+  static const Color crimsonBurgundy = brandRedDark;
+  static const Color crimsonBurgundyLight = brandRedLight;
+  static const Color crimsonBurgundyMuted = brandRedMuted;
+  static const Color brightCrimson = brandRed;
+  static const Color brightCrimsonLight = brandRedLight;
+  static const Color brightCrimsonMuted = brandRedMuted;
   static const Color backgroundLight = background;
   static const Color shellOverlay = surfaceSoft;
   static const Color surfaceMist = primaryTiffanyLight;
@@ -99,8 +110,8 @@ class AppColors {
   static const Color darkCardBorder = borderLight;
 
   static const LinearGradient tealgradient = flatTiffanyGradient;
-  static const LinearGradient crimsonGradient = flatTiffanyGradient;
-  static const LinearGradient brightCrimsonGradient = flatTiffanyGradient;
+  static const LinearGradient crimsonGradient = brandRedGradient;
+  static const LinearGradient brightCrimsonGradient = brandRedGradient;
   static const LinearGradient premiumGradient = flatTiffanyGradient;
   static const LinearGradient lightCardGradient = flatSurfaceGradient;
   static const LinearGradient darkCardGradient = flatSurfaceGradient;
@@ -108,13 +119,13 @@ class AppColors {
   static const LinearGradient darkGlassGradient = flatSurfaceGradient;
   static const LinearGradient tiffanyGradient = flatTiffanyGradient;
   static const LinearGradient faluTopBarGradient = flatTiffanyGradient;
-  static const LinearGradient faluRedGradient = flatTiffanyGradient;
-  static const LinearGradient nzeluGradient = flatTiffanyGradient;
+  static const LinearGradient faluRedGradient = brandRedGradient;
+  static const LinearGradient nzeruGradient = flatTiffanyGradient;
   static const LinearGradient lightGradient = flatSurfaceGradient;
   static const LinearGradient cardGradient = flatSurfaceGradient;
-  static const LinearGradient redGradient = flatTiffanyGradient;
+  static const LinearGradient redGradient = brandRedGradient;
   static const LinearGradient cryptoGradient = flatSurfaceGradient;
   static const LinearGradient cryptoCardGradient = flatSurfaceGradient;
   static const LinearGradient tiffanyGlassGradient = flatSurfaceGradient;
-  static const LinearGradient redCryptoGradient = flatTiffanyGradient;
+  static const LinearGradient redCryptoGradient = brandRedGradient;
 }

@@ -28,7 +28,7 @@ class ReportsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Nzelu Financial Reports',
+                    'Nzeru Financial Reports',
                     style: GoogleFonts.poppins(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,

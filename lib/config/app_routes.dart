@@ -18,6 +18,7 @@ import '../screens/notifications/notifications_screen.dart';
 import '../screens/profile/profile_screen.dart';
 import '../screens/settings/settings_screen.dart';
 import '../screens/home/main_shell.dart';
+import '../screens/ai/ai_assistant_screen.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -41,6 +42,7 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String profile = '/profile';
   static const String settings = '/settings';
+  static const String aiAssistant = '/ai-assistant';
 
   static Map<String, WidgetBuilder> get routes => {
         splash: (_) => const SplashScreen(),
@@ -62,5 +64,6 @@ class AppRoutes {
         notifications: (_) => const NotificationsScreen(),
         profile: (_) => const ProfileScreen(),
         settings: (_) => const SettingsScreen(),
+        aiAssistant: (_) => const AiAssistantScreen(),
       };
 }

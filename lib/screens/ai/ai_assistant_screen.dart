@@ -110,7 +110,7 @@ class _AiAssistantScreenState extends State<AiAssistantScreen> {
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
         ),
         title: Text(
-          'Nzelu AI Coach',
+          'Nzeru AI Coach',
           style: GoogleFonts.poppins(
             fontSize: 18,
             fontWeight: FontWeight.w700,

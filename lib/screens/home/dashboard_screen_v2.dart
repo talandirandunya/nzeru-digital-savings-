@@ -44,6 +44,17 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => Navigator.pushNamed(context, AppRoutes.aiAssistant),
+        backgroundColor: AppColors.primaryTiffany,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.auto_awesome),
+        label: const Text('AI Coach'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Stack(
         children: [
           DashboardBackdrop(darkMode: darkMode),
@@ -70,7 +81,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
                   ),
                   const SizedBox(height: 26),
                   _SectionRow(
-                    title: 'Nzelu Savings Plans',
+                    title: 'Nzeru Savings Plans',
                     trailing: plans.isEmpty ? null : '${plans.length} tracked',
                     darkMode: darkMode,
                   ),
@@ -84,7 +95,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
                   const SizedBox(height: 18),
                   _PerformanceCard(candles: candles),
                   const SizedBox(height: 18),
-                  _SectionRow(title: 'Nzelu Quick Actions', darkMode: darkMode),
+                  _SectionRow(title: 'Nzeru Quick Actions', darkMode: darkMode),
                   const SizedBox(height: 14),
                   const _QuickActionsRow(),
                   const SizedBox(height: 18),
@@ -613,7 +624,7 @@ class _PerformanceCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nzelu Performance',
+                      'Nzeru Performance',
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

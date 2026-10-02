@@ -25,7 +25,7 @@ class AppLogo extends StatelessWidget {
             color: Colors.white,
             child: Center(
               child: Image.asset(
-                'assets/images/nzelu_logo.jpeg',
+                'assets/images/nzeru_logo.png',
                 width: size * 0.8,
                 height: size * 0.8,
                 fit: BoxFit.contain,

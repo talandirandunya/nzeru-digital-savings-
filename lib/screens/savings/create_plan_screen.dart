@@ -17,7 +17,7 @@ class CreatePlanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DashboardPage(
-      eyebrow: 'Nzelu Savings Planner',
+      eyebrow: 'Nzeru Savings Planner',
       title: 'Create a plan and fund it first',
       subtitle:
           'Choose the title, target, and first deposit. The app now sends you straight to the deposit step before setup is complete.',

@@ -987,12 +987,12 @@ class _Header extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Nzelu Credit',
+                'Nzeru Credit',
                 style: GoogleFonts.poppins(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.6,
-                  color: const Color(0xFF0F9D8A),
+                  color: AppColors.primaryTiffany,
                 ),
               ),
               const SizedBox(height: 4),

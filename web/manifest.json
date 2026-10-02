@@ -1,11 +1,11 @@
 {
-    "name": "savings_utl",
-    "short_name": "savings_utl",
+    "name": "Nzeru Digital Savings",
+    "short_name": "Nzeru",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#007E87",
+    "theme_color": "#007E87",
+    "description": "Nzeru Digital Savings and Credit",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

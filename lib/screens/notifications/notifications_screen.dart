@@ -53,11 +53,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'NZELU UPDATES',
+                              'NZERU UPDATES',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 letterSpacing: 2.1,
-                                color: const Color(0xFF0ABAB5),
+                                color: AppColors.primaryTiffany,
                               ),
                             ),
                             Text(
