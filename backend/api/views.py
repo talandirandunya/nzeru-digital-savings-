@@ -1,7 +1,15 @@
+import json
+import logging
+import re
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+
+from django.conf import settings
 from rest_framework import viewsets, permissions, status, generics, serializers
-from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.decorators import action, api_view, permission_classes, throttle_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.throttling import SimpleRateThrottle
 from django.contrib.auth.models import User
 from django.db import transaction as db_transaction
 from django.db.models import Q, Sum
@@ -21,6 +29,181 @@ from .serializers import (
     NotificationSerializer, IJCGroupSerializer, IJCMemberSerializer,
     IJCTransactionSerializer
 )
+
+logger = logging.getLogger(__name__)
+
+
+class AssistantChatThrottle(SimpleRateThrottle):
+    scope = 'assistant_chat'
+    rate = '10/hour'
+
+    def get_cache_key(self, request, view):
+        if not request.user or not request.user.is_authenticated:
+            return None
+        return self.cache_format % {
+            'scope': self.scope,
+            'ident': request.user.pk,
+        }
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@throttle_classes([AssistantChatThrottle])
+def assistant_chat(request):
+    message = request.data.get('message')
+    history = request.data.get('history', [])
+    if not isinstance(message, str) or not message.strip() or len(message) > 2000:
+        return Response(
+            {'detail': 'Message must contain 1 to 2000 characters.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    if not isinstance(history, list) or len(history) > 12:
+        return Response(
+            {'detail': 'Conversation history must contain at most 12 messages.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    safe_history = []
+    for item in history:
+        if not isinstance(item, dict):
+            return Response({'detail': 'Invalid conversation history.'}, status=400)
+        role = item.get('role')
+        content = item.get('content')
+        if role not in ('user', 'assistant') or not isinstance(content, str):
+            return Response({'detail': 'Invalid conversation history.'}, status=400)
+        safe_history.append({'role': role, 'content': content[:2000]})
+
+    api_key = settings.AI_API_KEY
+    if not api_key:
+        return Response(
+            {'detail': 'The AI assistant is not configured yet. Add AI_API_KEY to Railway.'},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
+
+    financial_context = None
+    financial_terms = re.compile(
+        r'\b(sav(?:e|ing|ings)|balance|loan|credit|deposit|withdraw(?:al)?|'
+        r'penalt(?:y|ies)|transaction|financial|money|budget|interest|'
+        r'plan|repay(?:ment)?|eligible|eligibility|score)\b',
+        re.IGNORECASE,
+    )
+    conversation_text = ' '.join(
+        [message] + [item['content'] for item in safe_history[-4:]]
+    )
+    if financial_terms.search(conversation_text):
+        financial_context = _assistant_financial_context(request.user)
+
+    system_prompt = (
+        'You are Nzelu, a warm and concise general-purpose assistant inside a '
+        'digital savings and lending app. Answer general questions directly, '
+        'including questions unrelated to finance. When a question is unrelated '
+        'to finance, answer it first, then add at most one short, natural offer '
+        'to help with savings, loans, or app features. Do not force that offer '
+        'on every turn. For questions about this user account, use only the '
+        'provided account snapshot; never invent balances, transactions, '
+        'eligibility, or actions. Explain that financial guidance is educational '
+        'and not a guarantee or professional financial advice. Never request '
+        'passwords, verification codes, or payment credentials.'
+    )
+    if financial_context is not None:
+        system_prompt += '\nAccount snapshot (private; use only for this user): ' + json.dumps(
+            financial_context, separators=(',', ':')
+        )
+
+    payload = {
+        'model': settings.AI_MODEL,
+        'messages': [
+            {'role': 'system', 'content': system_prompt},
+            *safe_history,
+            {'role': 'user', 'content': message.strip()},
+        ],
+        'temperature': 0.4,
+        'max_tokens': 500,
+    }
+    provider_request = Request(
+        f'{settings.AI_API_BASE_URL}/chat/completions',
+        data=json.dumps(payload).encode('utf-8'),
+        headers={
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method='POST',
+    )
+
+    try:
+        with urlopen(provider_request, timeout=30) as response:
+            provider_data = json.loads(response.read().decode('utf-8'))
+    except HTTPError as error:
+        logger.warning('AI provider returned HTTP %s', error.code)
+        return Response(
+            {'detail': 'The AI service could not answer right now. Please try again.'},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
+    except (URLError, TimeoutError, OSError, ValueError):
+        logger.exception('AI provider request failed')
+        return Response(
+            {'detail': 'The AI service is temporarily unavailable. Please try again.'},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
+
+    choices = provider_data.get('choices', [])
+    reply = (
+        choices[0].get('message', {}).get('content')
+        if choices and isinstance(choices[0], dict)
+        else None
+    )
+    if not isinstance(reply, str) or not reply.strip():
+        return Response(
+            {'detail': 'The AI service returned an empty answer. Please try again.'},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
+    return Response({'reply': reply.strip()})
+
+
+def _assistant_financial_context(user):
+    profile, _ = UserProfile.objects.get_or_create(user=user)
+    active_plans = user.savings_plans.filter(is_active=True, is_trial=False)
+    tracked_savings = sum(
+        (plan.current_amount for plan in active_plans), start=0
+    )
+    active_loan = user.loans.filter(
+        status__in=['PENDING', 'APPROVED', 'ACTIVE']
+    ).exists()
+    recent_transactions = list(
+        user.transactions.filter(status='COMPLETED')
+        .order_by('-timestamp')
+        .values('type', 'amount')[:5]
+    )
+    return {
+        'currency': profile.preferred_currency,
+        'savings_balance': str(profile.savings_balance),
+        'tracked_savings_balance': str(tracked_savings),
+        'financial_score': profile.financial_score,
+        'active_plan_count': active_plans.count(),
+        'plans': [
+            {
+                'title': plan.title,
+                'current_amount': str(plan.current_amount),
+                'goal_amount': str(plan.goal_amount),
+                'frequency': plan.frequency,
+            }
+            for plan in active_plans[:10]
+        ],
+        'recent_transactions': [
+            {'type': item['type'], 'amount': str(item['amount'])}
+            for item in recent_transactions
+        ],
+        'total_penalties': str(
+            user.penalties.aggregate(total=Sum('amount'))['total'] or 0
+        ),
+        'has_pending_or_active_loan': active_loan,
+        'maximum_loan_by_current_rule': str(tracked_savings * Decimal('0.4')),
+        'loan_eligibility_rule': (
+            'Maximum is 40% of tracked savings; user must have positive tracked '
+            'savings and no pending or active loan.'
+        ),
+    }
 
 
 # ─── Auth ───────────────────────────────────────────

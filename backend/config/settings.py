@@ -175,6 +175,12 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
+AI_API_KEY = os.environ.get('AI_API_KEY', '').strip()
+AI_API_BASE_URL = os.environ.get(
+    'AI_API_BASE_URL', 'https://api.openai.com/v1'
+).rstrip('/')
+AI_MODEL = os.environ.get('AI_MODEL', 'gpt-4o-mini').strip()
+
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
 CORS_ALLOWED_ORIGINS = list(

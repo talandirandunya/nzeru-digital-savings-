@@ -583,6 +583,17 @@ class ApiService {
     return _handleResponse(response);
   }
 
+  Future<Map<String, dynamic>> askAssistant({
+    required String message,
+    required List<Map<String, String>> history,
+  }) async {
+    final response = await _post(
+      '/assistant/chat/',
+      body: {'message': message, 'history': history},
+    );
+    return _handleResponse(response);
+  }
+
   // ─── Response Helpers ──────────────────────────────────
 
   Map<String, dynamic> _handleResponse(http.Response response) {

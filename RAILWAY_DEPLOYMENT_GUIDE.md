@@ -39,6 +39,15 @@ CORS_ALLOWED_ORIGINS=https://nzeru-savings.netlify.app,https://yourdomain.com
 EXTRA_CSRF_TRUSTED_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
 ```
 
+#### **Optional AI Assistant Variables**
+The assistant needs an API key from a provider that supports the OpenAI chat-completions API. Add the key only as a Railway secret; never put it in Flutter or Netlify.
+```
+AI_API_KEY=<provider-api-key>
+AI_API_BASE_URL=https://api.openai.com/v1
+AI_MODEL=gpt-4o-mini
+```
+For another compatible provider, use its documented API base URL and model name. Financial account context is sent only when the conversation is about finances.
+
 #### **Optional / Advanced Variables**
 ```
 # For detailed Django logging during deployment
