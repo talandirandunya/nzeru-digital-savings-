@@ -81,7 +81,9 @@ class PayChanguSandboxService {
 
     final paymentUrl = body['payment_url']?.toString() ??
         body['checkout_url']?.toString() ??
-        body['data'] is Map ? (body['data'] as Map)['payment_url']?.toString() : null;
+      (body['data'] is Map
+        ? (body['data'] as Map)['payment_url']?.toString()
+        : null);
 
     return {
       'status': 'sandbox',
