@@ -22,11 +22,12 @@ class AssistantChatTests(TestCase):
         return assistant_chat(request)
 
     @override_settings(AI_API_KEY='')
-    def test_requires_provider_key(self):
-        response = self.post_chat({'message': 'Tell me a fun fact'})
+    def test_missing_provider_key_returns_fallback_response(self):
+        response = self.post_chat({'message': 'How am I doing with savings?'})
 
-        self.assertEqual(response.status_code, 503)
-        self.assertIn('AI_API_KEY', response.data['detail'])
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('savings', response.data['reply'].lower())
+        self.assertIn('balance', response.data['reply'].lower())
 
     @override_settings(
         AI_API_KEY='test-key',

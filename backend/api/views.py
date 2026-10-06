@@ -32,6 +32,13 @@ from .serializers import (
 
 logger = logging.getLogger(__name__)
 
+FINANCIAL_KEYWORDS = re.compile(
+    r'\b(sav(?:e|ing|ings)|balance|loan|credit|deposit|withdraw(?:al)?|'
+    r'penalt(?:y|ies)|transaction|financial|money|budget|interest|'
+    r'plan|repay(?:ment)?|eligible|eligibility|score)\b',
+    re.IGNORECASE,
+)
+
 
 class AssistantChatThrottle(SimpleRateThrottle):
     scope = 'assistant_chat'
@@ -74,24 +81,16 @@ def assistant_chat(request):
         safe_history.append({'role': role, 'content': content[:2000]})
 
     api_key = settings.AI_API_KEY
-    if not api_key:
-        return Response(
-            {'detail': 'The AI assistant is not configured yet. Add AI_API_KEY to Railway.'},
-            status=status.HTTP_503_SERVICE_UNAVAILABLE,
-        )
-
-    financial_context = None
-    financial_terms = re.compile(
-        r'\b(sav(?:e|ing|ings)|balance|loan|credit|deposit|withdraw(?:al)?|'
-        r'penalt(?:y|ies)|transaction|financial|money|budget|interest|'
-        r'plan|repay(?:ment)?|eligible|eligibility|score)\b',
-        re.IGNORECASE,
-    )
     conversation_text = ' '.join(
         [message] + [item['content'] for item in safe_history[-4:]]
     )
-    if financial_terms.search(conversation_text):
-        financial_context = _assistant_financial_context(request.user)
+    financial_context = _assistant_financial_context(request.user) if FINANCIAL_KEYWORDS.search(conversation_text) else None
+
+    if not api_key:
+        return Response(
+            {'reply': _assistant_fallback_reply(request.user, message, safe_history, financial_context)},
+            status=status.HTTP_200_OK,
+        )
 
     system_prompt = (
         'You are Nzelu, a warm and concise general-purpose assistant inside a '
@@ -137,14 +136,14 @@ def assistant_chat(request):
     except HTTPError as error:
         logger.warning('AI provider returned HTTP %s', error.code)
         return Response(
-            {'detail': 'The AI service could not answer right now. Please try again.'},
-            status=status.HTTP_502_BAD_GATEWAY,
+            {'reply': _assistant_fallback_reply(request.user, message, safe_history, financial_context)},
+            status=status.HTTP_200_OK,
         )
     except (URLError, TimeoutError, OSError, ValueError):
         logger.exception('AI provider request failed')
         return Response(
-            {'detail': 'The AI service is temporarily unavailable. Please try again.'},
-            status=status.HTTP_502_BAD_GATEWAY,
+            {'reply': _assistant_fallback_reply(request.user, message, safe_history, financial_context)},
+            status=status.HTTP_200_OK,
         )
 
     choices = provider_data.get('choices', [])
@@ -155,10 +154,73 @@ def assistant_chat(request):
     )
     if not isinstance(reply, str) or not reply.strip():
         return Response(
-            {'detail': 'The AI service returned an empty answer. Please try again.'},
-            status=status.HTTP_502_BAD_GATEWAY,
+            {'reply': _assistant_fallback_reply(request.user, message, safe_history, financial_context)},
+            status=status.HTTP_200_OK,
         )
     return Response({'reply': reply.strip()})
+
+
+def _assistant_fallback_reply(user, message, safe_history=None, financial_context=None):
+    text = (message or '').lower()
+    if financial_context is None and FINANCIAL_KEYWORDS.search(' '.join([message] + [item.get('content', '') for item in (safe_history or [])[-4:]])):
+        financial_context = _assistant_financial_context(user)
+
+    if financial_context:
+        savings_balance = Decimal(str(financial_context.get('savings_balance', 0)))
+        tracked_savings = Decimal(str(financial_context.get('tracked_savings_balance', 0)))
+        currency = financial_context.get('currency', 'MWK')
+        active_plan_count = financial_context.get('active_plan_count', 0)
+        active_loan = financial_context.get('has_pending_or_active_loan', False)
+        maximum_loan = Decimal(str(financial_context.get('maximum_loan_by_current_rule', 0)))
+
+        if any(term in text for term in ['savings', 'save', 'balance']):
+            if tracked_savings > 0:
+                return (
+                    f'Your tracked savings are {currency} {tracked_savings:,.2f}, '
+                    f'with an overall balance of {currency} {savings_balance:,.2f}. '
+                    f'You currently have {active_plan_count} active savings plan(s), so the best next step is '
+                    'to keep contributing consistently and review any recent withdrawals or penalties before you change your plan.'
+                )
+            return (
+                'Your savings balance is currently low, which gives you room to start a structured plan. '
+                'Consider setting one recurring deposit and aiming for a small weekly contribution to build momentum.'
+            )
+
+        if any(term in text for term in ['loan', 'borrow', 'credit', 'eligible']):
+            if active_loan:
+                return (
+                    'You already have loan activity in progress, so the safest approach is to keep repayments on time and avoid taking on extra borrowing until your balance is more stable.'
+                )
+            return (
+                f'Based on your tracked savings, the current rule suggests a maximum loan of about {currency} {maximum_loan:,.2f}. '
+                'That is a guideline, not a promise, so use it as a planning limit and keep your cash flow comfortable before borrowing.'
+            )
+
+        if any(term in text for term in ['next week', 'week', 'plan', 'today']):
+            return (
+                'This week, focus on three simple actions: check your recent transactions, keep your safest savings contribution on schedule, and avoid any new spending that could reduce your balance.'
+            )
+
+        if any(term in text for term in ['why', 'change', 'balance']):
+            return (
+                'Balance changes usually come from deposits, withdrawals, interest rewards, penalties, or transfers between savings plans. Review your recent transaction list to see which category caused the movement.'
+            )
+
+    if any(term in text for term in ['savings', 'save', 'balance']):
+        return (
+            'For savings, the best habit is to keep a recurring contribution, protect your emergency cushion, and review your recent activity before making larger withdrawals.'
+        )
+    if any(term in text for term in ['loan', 'borrow', 'credit', 'eligible']):
+        return (
+            'For borrowing, start by checking your repayment capacity, keep your total debt manageable, and only borrow what you can comfortably repay without stressing your budget.'
+        )
+    if any(term in text for term in ['next week', 'week', 'plan', 'today']):
+        return (
+            'A simple plan for this week is to review your spending, protect one recurring savings transfer, and avoid any unnecessary fees or late payments.'
+        )
+    return (
+        'I can help with personal finance basics, savings habits, and app guidance. Try asking about your savings balance, a loan estimate, or what to focus on this week.'
+    )
 
 
 def _assistant_financial_context(user):

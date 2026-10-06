@@ -11,6 +11,7 @@ class AppButton extends StatelessWidget {
   final bool isSecondary;
   final bool isOutlined;
   final double? width;
+  final Color? color;
 
   const AppButton({
     super.key,
@@ -21,11 +22,13 @@ class AppButton extends StatelessWidget {
     this.isSecondary = false,
     this.isOutlined = false,
     this.width,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    final fill = isSecondary ? AppColors.secondaryBlue : AppColors.primaryRed;
+    final fill = color ??
+        (isSecondary ? AppColors.secondaryBlue : AppColors.primaryRed);
 
     return SizedBox(
       width: width,

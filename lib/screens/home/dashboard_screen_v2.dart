@@ -43,7 +43,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
     final darkMode = false;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color(0xFF8B0000),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.pushNamed(context, AppRoutes.aiAssistant),
         backgroundColor: AppColors.primaryTiffany,
@@ -57,6 +57,18 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Stack(
         children: [
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF8B0000), Color(0xFF7A0000), Color(0xFFF5F2EE)],
+                  stops: [0.0, 0.2, 0.2],
+                ),
+              ),
+            ),
+          ),
           DashboardBackdrop(darkMode: darkMode),
           SafeArea(
             child: RefreshIndicator(
@@ -79,7 +91,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
                     onNotifications: () =>
                         Navigator.pushNamed(context, AppRoutes.notifications),
                   ),
-                  const SizedBox(height: 26),
+                  const SizedBox(height: 18),
                   _SectionRow(
                     title: 'Nzeru Savings Plans',
                     trailing: plans.isEmpty ? null : '${plans.length} tracked',
@@ -159,20 +171,22 @@ class _PhoneHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final initial = name.isEmpty ? 'U' : name[0].toUpperCase();
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 16),
       decoration: BoxDecoration(
-        color: darkMode
-            ? const Color(0xCC111A24)
-            : Colors.white.withValues(alpha: 0.76),
-        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF8B0000), Color(0xFF6D0000)],
+        ),
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: darkMode ? const Color(0x335F6E80) : const Color(0xFFE3DACC),
+          color: Colors.white.withValues(alpha: 0.12),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: darkMode ? 0.18 : 0.08),
-            blurRadius: 24,
-            offset: const Offset(0, 10),
+            color: Colors.black.withValues(alpha: 0.12),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -188,7 +202,7 @@ class _PhoneHeader extends StatelessWidget {
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w700,
                       fontSize: 18,
-                      color: AppColors.tiffanyBlueDark),
+                      color: Colors.white),
                 ),
               ),
               const SizedBox(width: 12),
@@ -201,9 +215,7 @@ class _PhoneHeader extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: darkMode
-                            ? const Color(0xFFD8E0EB)
-                            : const Color(0xFF4E4A44),
+                        color: Colors.white.withValues(alpha: 0.82),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -213,9 +225,7 @@ class _PhoneHeader extends StatelessWidget {
                         fontSize: 18,
                         height: 0.95,
                         fontWeight: FontWeight.w700,
-                        color: darkMode
-                            ? Colors.white
-                            : const Color(0xFF111111),
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -227,7 +237,7 @@ class _PhoneHeader extends StatelessWidget {
                   width: 58,
                   height: 58,
                   decoration: BoxDecoration(
-                    color: darkMode ? const Color(0xFFF4F2EC) : Colors.white,
+                    color: Colors.white.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -244,7 +254,7 @@ class _PhoneHeader extends StatelessWidget {
                         child: Icon(
                           Icons.notifications_none_rounded,
                           size: 31,
-                          color: Color(0xFF171412),
+                          color: Colors.white,
                         ),
                       ),
                       Positioned(
@@ -326,7 +336,7 @@ class _SectionRow extends StatelessWidget {
           width: 110,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
-            color: const Color(0xFF0ABAB5),
+            color: const Color(0xFF8B0000),
           ),
         ),
       ],
@@ -600,10 +610,14 @@ class _PerformanceCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
       decoration: BoxDecoration(
-        color: const Color(0xFF111721),
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF8B0000), Color(0xFF6D0000)],
+        ),
         borderRadius: BorderRadius.circular(26),
         border: Border.all(
-          color: const Color(0xFF801818).withValues(alpha: 0.3),
+          color: Colors.white.withValues(alpha: 0.10),
         ),
         boxShadow: [
           BoxShadow(
@@ -635,7 +649,7 @@ class _PerformanceCard extends StatelessWidget {
                       'Savings Analytics',
                       style: GoogleFonts.poppins(
                         fontSize: 11,
-                        color: const Color(0xFF8B95A5),
+                        color: Colors.white.withValues(alpha: 0.74),
                       ),
                     ),
                   ],
@@ -647,9 +661,9 @@ class _PerformanceCard extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF202736),
+                  color: Colors.white.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFF343C4F)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -658,7 +672,7 @@ class _PerformanceCard extends StatelessWidget {
                       'TOTAL SAVED',
                       style: GoogleFonts.poppins(
                         fontSize: 10,
-                        color: const Color(0xFF8B95A5),
+                        color: Colors.white.withValues(alpha: 0.68),
                       ),
                     ),
                     Text(
@@ -684,6 +698,61 @@ class _PerformanceCard extends StatelessWidget {
             darkMode: false,
             height: 130,
             borderRadius: BorderRadius.circular(18),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _MetricPill(label: 'Income', value: 'MK 1.4M'),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _MetricPill(label: 'Savings', value: 'MK 560K'),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _MetricPill(label: 'Growth', value: '+18.4%'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MetricPill extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _MetricPill({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.09),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+      ),
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 9,
+              color: Colors.white.withValues(alpha: 0.7),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -722,26 +791,35 @@ class _QuickActionsRow extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Navigator.pushNamed(context, items[i].route),
                 child: Container(
-                height: 72,
+                height: 74,
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
+                  color: const Color(0xFFF5E5E5),
                   borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: const Color(0xFFCCB2B2)),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      items[i].icon,
-                      size: 22,
-                      color: AppColors.tiffanyBlue,
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF8B0000),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        items[i].icon,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 8),
                     Text(
                       items[i].label,
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF04403E),
+                        color: const Color(0xFF7A0000),
                       ),
                     ),
                   ],

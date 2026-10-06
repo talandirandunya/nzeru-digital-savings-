@@ -93,23 +93,23 @@ class _DepositScreenState extends State<DepositScreen> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.background,
         appBar: AppBar(
           title: Text(
-            'MAKE DEPOSIT',
+            'Make a deposit',
             style: GoogleFonts.poppins(
-              fontSize: 16,
-              letterSpacing: 2,
-              color: AppColors.textPrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
             ),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: const Color(0xFF8B0000),
           elevation: 0,
           automaticallyImplyLeading: args?.requireDeposit != true,
           leading: args?.requireDeposit == true
               ? null
               : IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: () => Navigator.pop(context),
                 ),
         ),
@@ -124,33 +124,59 @@ class _DepositScreenState extends State<DepositScreen> {
                   children: [
                     Center(
                       child: Container(
-                        width: 80,
-                        height: 80,
+                        width: 76,
+                        height: 76,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.tiffanyBlue.withAlpha(15),
-                          border: Border.all(
-                            color: AppColors.tiffanyBlue.withAlpha(40),
-                            width: 2,
-                          ),
+                          color: const Color(0xFF8B0000),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF8B0000).withValues(alpha: 0.2),
+                              blurRadius: 18,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
                         ),
                         child: const Icon(
                           Icons.savings_rounded,
-                          color: AppColors.tiffanyBlue,
-                          size: 40,
+                          color: Colors.white,
+                          size: 36,
                         ),
                       ),
                     ).animate().scale(duration: 500.ms, curve: Curves.elasticOut),
+                    const SizedBox(height: 14),
+                    Center(
+                      child: Text(
+                        'Add money to your savings',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF171717),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Center(
+                      child: Text(
+                        'Choose a plan and enter an amount to deposit.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
                     if (args?.requireDeposit == true) ...[
                       const SizedBox(height: 22),
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.tiffanyBlue.withAlpha(14),
+                          color: const Color(0xFFF9E5E8),
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color: AppColors.tiffanyBlue.withAlpha(40),
+                            color: const Color(0xFFE5B7BE),
                           ),
                         ),
                         child: Text(
@@ -158,18 +184,19 @@ class _DepositScreenState extends State<DepositScreen> {
                           style: GoogleFonts.poppins(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
+                            color: const Color(0xFF72000D),
                           ),
                         ),
                       ),
                     ],
                     const SizedBox(height: 30),
                     Text(
-                      'SELECT PLAN',
+                      'SELECT SAVINGS PLAN',
                       style: GoogleFonts.poppins(
                         fontSize: 11,
-                        color: AppColors.textMuted,
-                        letterSpacing: 2,
+                        color: const Color(0xFF7A0000),
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.2,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -185,21 +212,32 @@ class _DepositScreenState extends State<DepositScreen> {
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? AppColors.tiffanyBlue.withAlpha(15)
-                                : AppColors.cardBg,
-                            borderRadius: BorderRadius.circular(12),
+                                ? const Color(0xFF8B0000)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color:
-                                  isSelected ? AppColors.tiffanyBlue : AppColors.border,
+                              color: isSelected
+                                  ? const Color(0xFF8B0000)
+                                  : AppColors.border,
                               width: isSelected ? 1.5 : 1,
                             ),
+                            boxShadow: isSelected
+                                ? [
+                                    BoxShadow(
+                                      color: const Color(0xFF8B0000)
+                                          .withValues(alpha: 0.14),
+                                      blurRadius: 14,
+                                      offset: const Offset(0, 6),
+                                    ),
+                                  ]
+                                : null,
                           ),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.savings_outlined,
                                 color: isSelected
-                                    ? AppColors.tiffanyBlue
+                                  ? Colors.white
                                     : AppColors.textMuted,
                                 size: 20,
                               ),
@@ -210,7 +248,7 @@ class _DepositScreenState extends State<DepositScreen> {
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     color: isSelected
-                                        ? AppColors.tiffanyBlue
+                                      ? Colors.white
                                         : AppColors.textSecondary,
                                   ),
                                 ),
@@ -218,7 +256,7 @@ class _DepositScreenState extends State<DepositScreen> {
                               if (isSelected)
                                 const Icon(
                                   Icons.check_circle,
-                                  color: AppColors.tiffanyBlue,
+                                  color: Colors.white,
                                   size: 20,
                                 ),
                             ],
@@ -228,11 +266,12 @@ class _DepositScreenState extends State<DepositScreen> {
                     }),
                     const SizedBox(height: 28),
                     Text(
-                      'AMOUNT',
+                      'DEPOSIT AMOUNT',
                       style: GoogleFonts.poppins(
                         fontSize: 11,
-                        color: AppColors.textMuted,
-                        letterSpacing: 2,
+                        color: const Color(0xFF7A0000),
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.2,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -242,10 +281,12 @@ class _DepositScreenState extends State<DepositScreen> {
                           const TextInputType.numberWithOptions(decimal: true),
                       style: GoogleFonts.poppins(
                         fontSize: 32,
-                        color: AppColors.tiffanyBlue,
+                        color: const Color(0xFF8B0000),
                         fontWeight: FontWeight.w700,
                       ),
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         hintText: '0.00',
                         hintStyle: GoogleFonts.poppins(
                           color: AppColors.textMuted,
@@ -254,8 +295,23 @@ class _DepositScreenState extends State<DepositScreen> {
                         prefixText: 'MK ',
                         prefixStyle: GoogleFonts.poppins(
                           fontSize: 32,
-                          color: AppColors.tiffanyBlue,
+                          color: const Color(0xFF8B0000),
                           fontWeight: FontWeight.w700,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 16,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Color(0xFFE2D4D4)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF8B0000),
+                            width: 1.6,
+                          ),
                         ),
                       ),
                     ).animate().fadeIn(delay: 200.ms),
@@ -267,6 +323,7 @@ class _DepositScreenState extends State<DepositScreen> {
                       icon: Icons.check_circle_outline,
                       isLoading: _isProcessing,
                       width: double.infinity,
+                      color: const Color(0xFF8B0000),
                       onPressed: () async {
                         final amount = double.tryParse(_amountController.text);
                         if (amount == null || amount <= 0) {
