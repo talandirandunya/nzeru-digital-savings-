@@ -93,7 +93,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
                         )
                       : _TopPlansRail(plans: plans, darkMode: darkMode),
                   const SizedBox(height: 18),
-                  _PerformanceCard(candles: candles),
+                  _PerformanceCard(candles: candles, finance: finance),
                   const SizedBox(height: 18),
                   _SectionRow(title: 'Nzeru Quick Actions', darkMode: darkMode),
                   const SizedBox(height: 14),
@@ -590,8 +590,9 @@ class _TopPlansRail extends StatelessWidget {
 
 class _PerformanceCard extends StatelessWidget {
   final List<CandleData> candles;
+  final FinanceOverviewProvider finance;
 
-  const _PerformanceCard({required this.candles});
+  const _PerformanceCard({required this.candles, required this.finance});
 
   @override
   Widget build(BuildContext context) {
@@ -665,7 +666,7 @@ class _PerformanceCard extends StatelessWidget {
                     ),
                     Text(
                       CurrencyUtil.formatCompact(
-                        candles.isEmpty ? 0 : candles.last.close,
+                        finance.totalSaved,
                       ),
                       style: GoogleFonts.poppins(
                         fontSize: 17,
@@ -691,15 +692,24 @@ class _PerformanceCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _MetricPill(label: 'Income', value: 'MK 1.4M'),
+                child: _MetricPill(
+                  label: 'Deposits',
+                  value: CurrencyUtil.formatCompact(finance.totalDeposits),
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: _MetricPill(label: 'Savings', value: 'MK 560K'),
+                child: _MetricPill(
+                  label: 'Withdrawals',
+                  value: CurrencyUtil.formatCompact(finance.totalWithdrawals),
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: _MetricPill(label: 'Growth', value: '+18.4%'),
+                child: _MetricPill(
+                  label: 'Interest',
+                  value: CurrencyUtil.formatCompact(finance.interestEarned),
+                ),
               ),
             ],
           ),
@@ -952,55 +962,31 @@ class _EmptyCard extends StatelessWidget {
 }
 
 List<CandleData> _buildSavingsCandles(FinanceOverviewProvider finance) {
-  final transactions = [...finance.transactions]
+  final transactions = finance.transactions
+      .where((txn) => txn.status == TransactionStatus.completed)
+      .toList()
     ..sort((a, b) => a.date.compareTo(b.date));
 
-  if (transactions.isNotEmpty) {
-    var running = 0.0;
-    return transactions.take(42).map((txn) {
-      final open = running;
-      running += txn.isCredit ? txn.amount : -txn.amount;
-      final close = running < 0 ? 0.0 : running;
-      final high = _maxDouble(open, close) + (txn.amount * 0.025);
-      final low = (_minDouble(open, close) - (txn.amount * 0.02))
-          .clamp(0.0, double.infinity)
-          .toDouble();
-      return CandleData(
-        time: txn.date,
-        open: open,
-        high: high,
-        low: low,
-        close: close,
-        volume: txn.amount,
-      );
-    }).toList();
-  }
+  var running = 0.0;
+  final candles = transactions.map((txn) {
+    final open = running;
+    running = (running + (txn.isCredit ? txn.amount : -txn.amount))
+        .clamp(0.0, double.infinity)
+        .toDouble();
+    final close = running;
+    return CandleData(
+      time: txn.date,
+      open: open,
+      high: _maxDouble(open, close),
+      low: _minDouble(open, close),
+      close: close,
+      volume: txn.amount,
+    );
+  }).toList();
 
-  if (finance.prioritizedPlans.isNotEmpty) {
-    return finance.prioritizedPlans
-        .expand(
-          (plan) => List.generate(10, (index) {
-            final base = plan.goalAmount == 0
-                ? 0.0
-                : plan.goalAmount * (0.10 + (index * 0.03));
-            final close = (base + (plan.currentAmount * (index / 10)))
-                .clamp(0.0, plan.goalAmount)
-                .toDouble();
-            return CandleData(
-              time: plan.startDate.add(Duration(days: index * 3)),
-              open: index == 0 ? base * 0.94 : base,
-              high: close + (plan.requiredPerWeek * 0.16),
-              low: (base * 0.90).clamp(0.0, double.infinity).toDouble(),
-              close: close,
-              volume: plan.currentAmount,
-            );
-          }),
-        )
-        .take(42)
-        .toList();
-  }
-
-  return <CandleData>[];
+  return candles.length <= 42
+      ? candles
+      : candles.sublist(candles.length - 42);
 }
 
 String _firstName(String? name) {

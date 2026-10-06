@@ -38,15 +38,27 @@ class FinanceOverviewProvider with ChangeNotifier {
       totalGoal > 0 ? (totalSaved / totalGoal).clamp(0, 1) : 0;
 
   double get totalDeposits => _transactions
-      .where((txn) => txn.type == TransactionType.deposit)
+      .where(
+      (txn) =>
+        txn.status == TransactionStatus.completed &&
+        txn.type == TransactionType.deposit,
+      )
       .fold(0.0, (sum, txn) => sum + txn.amount);
 
   double get totalWithdrawals => _transactions
-      .where((txn) => txn.type == TransactionType.withdrawal)
+      .where(
+      (txn) =>
+        txn.status == TransactionStatus.completed &&
+        txn.type == TransactionType.withdrawal,
+      )
       .fold(0.0, (sum, txn) => sum + txn.amount);
 
   double get interestEarned => _transactions
-      .where((txn) => txn.type == TransactionType.interestReward)
+      .where(
+      (txn) =>
+        txn.status == TransactionStatus.completed &&
+        txn.type == TransactionType.interestReward,
+      )
       .fold(0.0, (sum, txn) => sum + txn.amount);
 
   double get monthlyCommitment =>
