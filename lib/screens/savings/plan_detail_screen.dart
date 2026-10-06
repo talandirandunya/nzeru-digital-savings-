@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../config/app_colors.dart';
 import '../../config/app_routes.dart';
 import '../../models/savings_plan.dart';
 import '../../models/savings_transaction.dart';
@@ -121,7 +122,7 @@ class PlanDetailScreen extends StatelessWidget {
                             ),
                           ),
                           style: FilledButton.styleFrom(
-                            backgroundColor: const Color(0xFF0F9D8A),
+                            backgroundColor: AppColors.brandBlue,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
@@ -225,7 +226,7 @@ class PlanDetailScreen extends StatelessWidget {
                             value: plan.isGoalLocked ? 'LOCKED' : 'UNLOCKED',
                             valueColor: plan.isGoalLocked
                                 ? const Color(0xFFD96069)
-                                : const Color(0xFF0F9D8A),
+                                : AppColors.brandBlue,
                           ),
                         ],
                       ],
@@ -274,7 +275,7 @@ class PlanDetailScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       color: txn.isCredit
                                           ? const Color(
-                                              0xFF0F9D8A,
+                                              0xFF005B96,
                                             ).withValues(alpha: 0.12)
                                           : const Color(
                                               0xFFD96069,
@@ -286,7 +287,7 @@ class PlanDetailScreen extends StatelessWidget {
                                           ? Icons.arrow_downward_rounded
                                           : Icons.arrow_upward_rounded,
                                       color: txn.isCredit
-                                          ? const Color(0xFF0F9D8A)
+                                          ? AppColors.brandBlue
                                           : const Color(0xFFD96069),
                                       size: 18,
                                     ),
@@ -324,7 +325,7 @@ class PlanDetailScreen extends StatelessWidget {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                       color: txn.isCredit
-                                          ? const Color(0xFF0F9D8A)
+                                          ? AppColors.brandBlue
                                           : const Color(0xFFD96069),
                                     ),
                                   ),

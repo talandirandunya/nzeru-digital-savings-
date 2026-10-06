@@ -27,7 +27,7 @@ class IjcDetailScreen extends StatelessWidget {
     final daysLeft = group.daysUntilCashOut;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

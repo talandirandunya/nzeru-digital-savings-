@@ -16,7 +16,7 @@ class ReportsScreen extends StatelessWidget {
     final recentTransactions = finance.recentTransactions;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F4EE),
+      backgroundColor: AppColors.background,
       body: Stack(
         children: [
           const DashboardBackdrop(darkMode: false),
@@ -50,7 +50,7 @@ class ReportsScreen extends StatelessWidget {
                         value: CurrencyUtil.formatCompact(
                           finance.totalDeposits,
                         ),
-                        accent: const Color(0xFF0F9D8A),
+                      accent: AppColors.brandBlue,
                         icon: Icons.south_west_rounded,
                       ),
                       _MiniReportCard(
@@ -72,14 +72,14 @@ class ReportsScreen extends StatelessWidget {
                       _MiniReportCard(
                         label: 'Net worth',
                         value: CurrencyUtil.formatCompact(finance.netWorth),
-                        accent: const Color(0xFF0C6170),
+                      accent: AppColors.brandBlueDark,
                         icon: Icons.analytics_rounded,
                       ),
                     ],
                   ),
                   const SizedBox(height: 18),
                   DashboardPanel(
-                    glowColor: const Color(0x660F9D8A),
+                    glowColor: AppColors.brandBlue.withValues(alpha: 0.4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -173,7 +173,7 @@ class ReportsScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             color: txn.isCredit
                                                 ? const Color(
-                                                    0xFF0F9D8A,
+                                                    0xFF005B96,
                                                   ).withValues(alpha: 0.12)
                                                 : const Color(
                                                     0xFFD96069,
@@ -188,7 +188,7 @@ class ReportsScreen extends StatelessWidget {
                                                 : Icons.arrow_upward_rounded,
                                             size: 18,
                                             color: txn.isCredit
-                                                ? const Color(0xFF0F9D8A)
+                                                ? AppColors.brandBlue
                                                 : const Color(0xFFD96069),
                                           ),
                                         ),
@@ -231,7 +231,7 @@ class ReportsScreen extends StatelessWidget {
                                             fontSize: 13,
                                             fontWeight: FontWeight.w700,
                                             color: txn.isCredit
-                                                ? const Color(0xFF0F9D8A)
+                                                ? AppColors.brandBlue
                                                 : const Color(0xFFD96069),
                                           ),
                                         ),

@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Logo-matched teal and red, retained behind existing palette names.
-  static const Color brandTeal = Color(0xFF007E87);
-  static const Color brandTealDark = Color(0xFF005F69);
-  static const Color brandTealLight = Color(0xFFE1EFF0);
+  static const Color brandBlue = Color(0xFF005B96);
+  static const Color brandBlueDark = Color(0xFF003D63);
+  static const Color brandBlueLight = Color(0xFFE7F0F7);
+  static const Color brandTeal = brandBlue;
+  static const Color brandTealDark = brandBlueDark;
+  static const Color brandTealLight = brandBlueLight;
   static const Color brandRed = Color(0xFFB00018);
   static const Color brandRedDark = Color(0xFF870014);
   static const Color brandRedLight = Color(0xFFF9E5E8);
   static const Color brandRedMuted = Color(0xFFEBC2C8);
 
-  static const Color primaryTiffany = brandTeal;
-  static const Color primaryTiffanyDark = brandTealDark;
-  static const Color primaryTiffanyLight = brandTealLight;
+  static const Color primaryTiffany = brandBlue;
+  static const Color primaryTiffanyDark = brandBlueDark;
+  static const Color primaryTiffanyLight = brandBlueLight;
   static const Color accentRed = brandRed;
 
-  static const Color background = Color(0xFFF7F8FA);
+  static const Color background = Color(0xFFFFFFFF);
   static const Color surface = Color(0xFFFFFFFF);
-  static const Color surfaceSoft = Color(0xFFF7F8FA);
+  static const Color surfaceSoft = Color(0xFFF7F9FC);
   static const Color cardSurface = Color(0xFFFFFFFF);
 
   static const Color darkBackground = Color(0xFF0B1220);
@@ -38,7 +40,7 @@ class AppColors {
   static const Color warning = Color(0xFFF59E0B);
   static const Color info = primaryTiffany;
   static const Color error = Color(0xFFEF4444);
-  static const Color loadingRed = brandRed;
+  static const Color loadingRed = brandBlue;
   static const Color loadingGreen = Color(0xFF22C55E);
   static const Color faluRed = brandRed;
   static const Color faluMist = primaryTiffanyLight; // legacy alias → teal light
@@ -73,8 +75,8 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  static const Color primaryRed = primaryTiffany;
-  static const Color secondaryBlue = primaryTiffanyDark;
+  static const Color primaryRed = brandBlue;
+  static const Color secondaryBlue = brandBlueDark;
   static const Color tiffanyBlue = primaryTiffany;
   static const Color tiffanyBlueLight = primaryTiffanyLight;
   static const Color tiffanyBlueDark = primaryTiffanyDark;

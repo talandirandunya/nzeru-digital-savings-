@@ -43,7 +43,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
     final darkMode = false;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF8B0000),
+      backgroundColor: AppColors.background,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.pushNamed(context, AppRoutes.aiAssistant),
         backgroundColor: AppColors.primaryTiffany,
@@ -57,18 +57,6 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF8B0000), Color(0xFF7A0000), Color(0xFFF5F2EE)],
-                  stops: [0.0, 0.2, 0.2],
-                ),
-              ),
-            ),
-          ),
           DashboardBackdrop(darkMode: darkMode),
           SafeArea(
             child: RefreshIndicator(
@@ -132,7 +120,7 @@ class _DashboardScreenV2State extends State<DashboardScreenV2> {
                           fontWeight: FontWeight.w700,
                           color: darkMode
                               ? const Color(0xFF8DE8E5)
-                              : const Color(0xFF088F8B),
+                              : AppColors.brandBlue,
                         ),
                       ),
                     ),
@@ -176,7 +164,7 @@ class _PhoneHeader extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF8B0000), Color(0xFF6D0000)],
+          colors: [AppColors.brandBlue, AppColors.brandBlueDark],
         ),
         borderRadius: BorderRadius.circular(28),
         border: Border.all(
@@ -202,7 +190,7 @@ class _PhoneHeader extends StatelessWidget {
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w700,
                       fontSize: 18,
-                      color: Colors.white),
+                      color: AppColors.brandBlueDark),
                 ),
               ),
               const SizedBox(width: 12),
@@ -281,7 +269,7 @@ class _PhoneHeader extends StatelessWidget {
             height: 4,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(999),
-              color: const Color(0xFF0ABAB5),
+              color: AppColors.brandBlue,
             ),
           ),
         ],
@@ -325,7 +313,7 @@ class _SectionRow extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   color: darkMode
                       ? const Color(0xFF8DE8E5)
-                      : const Color(0xFF088F8B),
+                      : AppColors.brandBlue,
                 ),
               ),
           ],
@@ -336,7 +324,7 @@ class _SectionRow extends StatelessWidget {
           width: 110,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
-            color: const Color(0xFF8B0000),
+            color: AppColors.brandBlue,
           ),
         ),
       ],
@@ -503,7 +491,7 @@ class _TopSavingsPlanCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD6F5F4),
+                    color: AppColors.brandBlueLight,
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
@@ -511,7 +499,7 @@ class _TopSavingsPlanCard extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 9,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF088F8B),
+                      color: AppColors.brandBlue,
                     ),
                   ),
                 ),
@@ -565,7 +553,7 @@ class _TopSavingsPlanCard extends StatelessWidget {
   static Color _statusColor(PlanHealth health) {
     switch (health) {
       case PlanHealth.onTrack:
-        return const Color(0xFF0ABAB5);
+        return AppColors.brandBlue;
       case PlanHealth.watch:
         return const Color(0xFFC21A03);
       case PlanHealth.behind:
@@ -793,9 +781,9 @@ class _QuickActionsRow extends StatelessWidget {
                 child: Container(
                 height: 74,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF5E5E5),
+                  color: AppColors.brandBlueLight,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFFCCB2B2)),
+                  border: Border.all(color: AppColors.brandBlue.withAlpha(55)),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -804,7 +792,7 @@ class _QuickActionsRow extends StatelessWidget {
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF8B0000),
+                        color: AppColors.brandBlueDark,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
@@ -819,7 +807,7 @@ class _QuickActionsRow extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF7A0000),
+                        color: AppColors.brandBlueDark,
                       ),
                     ),
                   ],
@@ -879,7 +867,7 @@ class _TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = txn.isCredit
-        ? const Color(0xFF0ABAB5)
+        ? AppColors.brandBlue
         : const Color(0xFF801818);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),

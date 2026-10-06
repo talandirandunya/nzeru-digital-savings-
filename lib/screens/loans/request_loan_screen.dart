@@ -73,7 +73,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
         cashoutWarning == null;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF4FAF9),
+      backgroundColor: AppColors.background,
       body: Stack(
         children: [
           const DashboardBackdrop(darkMode: false),
@@ -123,7 +123,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                                 eligibilityValue,
                               ),
                               icon: Icons.verified_rounded,
-                              accent: const Color(0xFF0F9D8A),
+                              accent: AppColors.brandBlue,
                             ),
                             _OverviewTile(
                               label: 'Tracked',
@@ -143,7 +143,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                               label: 'Repaid',
                               value: CurrencyUtil.formatCompact(repaidCredit),
                               icon: Icons.paid_rounded,
-                              accent: const Color(0xFF0C6170),
+                              accent: AppColors.brandBlueDark,
                             ),
                           ],
                         ),
@@ -231,7 +231,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                                 fontSize: 31,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: -1,
-                                color: const Color(0xFF0F9D8A),
+                                color: AppColors.brandBlue,
                               ),
                             ),
                           ),
@@ -239,8 +239,8 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                         const SizedBox(height: 12),
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
-                            activeTrackColor: const Color(0xFF0F9D8A),
-                            inactiveTrackColor: const Color(0xFFDDEAE8),
+                            activeTrackColor: AppColors.brandBlue,
+                            inactiveTrackColor: AppColors.brandBlueLight,
                             thumbColor: const Color(0xFFD96069),
                             overlayColor: const Color(0x22D96069),
                             trackHeight: 6,
@@ -357,7 +357,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                               value: CurrencyUtil.formatCompact(
                                 eligibilityValue,
                               ),
-                              accent: const Color(0xFF0F9D8A),
+                              accent: AppColors.brandBlue,
                             ),
                             _BreakdownTile(
                               label: 'Interest',
@@ -381,7 +381,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                                       distributionCount: distributionCount,
                                       estimatedMonths: estimatedMonths,
                                     ),
-                              accent: const Color(0xFF0C6170),
+                              accent: AppColors.brandBlueDark,
                             ),
                           ],
                         ),
@@ -396,8 +396,8 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
                           ? () => _submitRequest(context, selectedPlan)
                           : null,
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF0F9D8A),
-                        disabledBackgroundColor: const Color(0xFFBFD7D3),
+                        backgroundColor: AppColors.brandBlue,
+                        disabledBackgroundColor: AppColors.brandBlueLight,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 18),
                         shape: RoundedRectangleBorder(
@@ -677,7 +677,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
         maxCredit < _minimumCreditAmount) {
       return const Color(0xFFD96069);
     }
-    return const Color(0xFF0F9D8A);
+    return AppColors.brandBlue;
   }
 
   Future<void> _submitRequest(
@@ -796,7 +796,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
         decoration: BoxDecoration(
           color: const Color(0xFFEAF6F4),
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: const Color(0xFFBDE0DB)),
+          border: Border.all(color: AppColors.brandBlue.withAlpha(70)),
         ),
         child: Row(
           children: [
@@ -809,7 +809,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
               ),
               child: const Icon(
                 Icons.flash_on_rounded,
-                color: Color(0xFF0F9D8A),
+                color: AppColors.brandBlue,
               ),
             ),
             const SizedBox(width: 14),
@@ -1229,7 +1229,7 @@ class _ModeChip extends StatelessWidget {
       duration: const Duration(milliseconds: 220),
       curve: Curves.easeOut,
       decoration: BoxDecoration(
-        color: selected ? const Color(0xFF0F9D8A) : Colors.transparent,
+        color: selected ? AppColors.brandBlue : Colors.transparent,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Material(
@@ -1337,8 +1337,8 @@ class _EmptyStateCard extends StatelessWidget {
           OutlinedButton(
             onPressed: onTap,
             style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(0xFF0F9D8A),
-              side: const BorderSide(color: Color(0xFFBDE0DB)),
+              foregroundColor: AppColors.brandBlue,
+              side: BorderSide(color: AppColors.brandBlue.withAlpha(70)),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -1371,7 +1371,7 @@ InputDecoration _fieldDecoration(String label) {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(18),
-      borderSide: const BorderSide(color: Color(0xFF0F9D8A), width: 1.4),
+      borderSide: const BorderSide(color: AppColors.brandBlue, width: 1.4),
     ),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
   );

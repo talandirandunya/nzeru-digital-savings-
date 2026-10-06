@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../config/app_colors.dart';
 import '../../models/savings_plan.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/savings_provider.dart';
@@ -225,7 +226,7 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.event_outlined, color: Color(0xFF0ABAB5)),
+                    const Icon(Icons.event_outlined, color: AppColors.brandBlue),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -254,7 +255,7 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF0ABAB5),
+                        color: AppColors.brandBlue,
                       ),
                     ),
                   ],
@@ -271,19 +272,19 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
                 _FrequencyChip(
                   label: 'Daily',
                   selected: _frequency == PlanFrequency.daily,
-                  color: const Color(0xFFD55C4B),
+                  color: AppColors.brandBlue,
                   onTap: () => setState(() => _frequency = PlanFrequency.daily),
                 ),
                 _FrequencyChip(
                   label: 'Weekly',
                   selected: _frequency == PlanFrequency.weekly,
-                  color: const Color(0xFF3B9D5D),
+                  color: AppColors.brandBlue,
                   onTap: () => setState(() => _frequency = PlanFrequency.weekly),
                 ),
                 _FrequencyChip(
                   label: 'Monthly',
                   selected: _frequency == PlanFrequency.monthly,
-                  color: const Color(0xFF0ABAB5),
+                  color: AppColors.brandBlue,
                   onTap: () => setState(() => _frequency = PlanFrequency.monthly),
                 ),
               ],
@@ -464,7 +465,7 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
-        borderSide: const BorderSide(color: Color(0xFF0ABAB5)),
+        borderSide: const BorderSide(color: AppColors.brandBlue),
       ),
     );
   }
@@ -500,7 +501,7 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
         prefixStyle: GoogleFonts.poppins(
           fontSize: 18,
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF0ABAB5),
+          color: AppColors.brandBlue,
         ),
       ),
     );
@@ -513,7 +514,7 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
         fontSize: 14,
         letterSpacing: 1.8,
         fontWeight: FontWeight.w700,
-        color: const Color(0xFF0ABAB5),
+        color: AppColors.brandBlue,
       ),
     );
   }
@@ -521,12 +522,12 @@ class _SavingsPlanComposerState extends State<SavingsPlanComposer> {
   Color _accentForFrequency(PlanFrequency frequency) {
     switch (frequency) {
       case PlanFrequency.daily:
-        return const Color(0x66D55C4B);
+        return AppColors.brandBlue.withAlpha(100);
       case PlanFrequency.weekly:
       case PlanFrequency.biweekly:
-        return const Color(0x663B9D5D);
+        return AppColors.brandBlue.withAlpha(100);
       case PlanFrequency.monthly:
-        return const Color(0x66D4AF37);
+        return AppColors.brandBlue.withAlpha(100);
     }
   }
 
@@ -742,10 +743,12 @@ class _GoalLockPreview extends StatelessWidget {
       decoration: BoxDecoration(
         color: locked
             ? const Color(0xFFD96069).withValues(alpha: 0.10)
-            : const Color(0xFF0F9D8A).withValues(alpha: 0.10),
+            : AppColors.brandBlue.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: locked ? const Color(0xFFF0C7CB) : const Color(0xFF9DD7CB),
+            color: locked
+              ? const Color(0xFFF0C7CB)
+              : AppColors.brandBlue.withAlpha(70),
         ),
       ),
       child: Column(
@@ -756,7 +759,7 @@ class _GoalLockPreview extends StatelessWidget {
               Icon(
                 locked ? Icons.lock_rounded : Icons.celebration_rounded,
                 size: 18,
-                color: locked ? const Color(0xFFD96069) : const Color(0xFF0F9D8A),
+                color: locked ? const Color(0xFFD96069) : AppColors.brandBlue,
               ),
               const SizedBox(width: 8),
               Text(
@@ -764,7 +767,7 @@ class _GoalLockPreview extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 13,
                   fontWeight: FontWeight.w800,
-                  color: locked ? const Color(0xFFD96069) : const Color(0xFF0F9D8A),
+                  color: locked ? const Color(0xFFD96069) : AppColors.brandBlue,
                 ),
               ),
             ],
@@ -775,7 +778,7 @@ class _GoalLockPreview extends StatelessWidget {
             minHeight: 8,
             backgroundColor: isDark ? const Color(0x335F6E80) : const Color(0xFFE6DAC7),
             valueColor: AlwaysStoppedAnimation<Color>(
-              locked ? const Color(0xFFD96069) : const Color(0xFF0F9D8A),
+              locked ? const Color(0xFFD96069) : AppColors.brandBlue,
             ),
           ),
           const SizedBox(height: 8),

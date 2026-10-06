@@ -10,9 +10,9 @@ class AppTheme {
     final base = ThemeData(
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(
-        primary: AppColors.primaryRed,
-        secondary: AppColors.secondaryBlue,
-        tertiary: AppColors.secondaryBlue,
+        primary: AppColors.brandBlue,
+        secondary: AppColors.brandRed,
+        tertiary: AppColors.brandBlueDark,
         surface: AppColors.surface,
         background: AppColors.background,
         error: AppColors.error,
@@ -23,8 +23,8 @@ class AppTheme {
         onError: Colors.white,
         outline: AppColors.border,
       ),
-      scaffoldBackgroundColor: const Color(0xFFF5F7FA),
-      primaryColor: AppColors.primaryRed,
+      scaffoldBackgroundColor: AppColors.background,
+      primaryColor: AppColors.brandBlue,
       useMaterial3: true,
     );
 
@@ -200,9 +200,9 @@ class AppTheme {
     final base = ThemeData(
       brightness: Brightness.dark,
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.primaryRed,
-        secondary: AppColors.secondaryBlue,
-        tertiary: AppColors.secondaryBlue,
+        primary: AppColors.brandBlue,
+        secondary: AppColors.brandRed,
+        tertiary: AppColors.brandBlueDark,
         surface: AppColors.darkSurface,
         background: AppColors.darkBackground,
         error: AppColors.error,
@@ -214,7 +214,7 @@ class AppTheme {
         outline: AppColors.darkBorder,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
-      primaryColor: AppColors.primaryRed,
+      primaryColor: AppColors.brandBlue,
       useMaterial3: true,
     );
 

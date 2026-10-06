@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../config/app_colors.dart';
 import '../../config/app_routes.dart';
 import '../../providers/finance_overview_provider.dart';
 import '../../providers/savings_provider.dart';
@@ -24,7 +25,7 @@ class SavingsPlansScreen extends StatelessWidget {
       trailing: FilledButton.icon(
         onPressed: () => Navigator.pushNamed(context, AppRoutes.createPlan),
         style: FilledButton.styleFrom(
-          backgroundColor: const Color(0xFF0F9D8A),
+          backgroundColor: AppColors.brandBlue,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           shape: RoundedRectangleBorder(
@@ -39,7 +40,7 @@ class SavingsPlansScreen extends StatelessWidget {
       ),
       children: [
         DashboardPanel(
-          glowColor: const Color(0x660F9D8A),
+          glowColor: AppColors.brandBlue.withValues(alpha: 0.4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -66,7 +67,7 @@ class SavingsPlansScreen extends StatelessWidget {
                     child: _SummaryStat(
                       label: 'Saved',
                       value: CurrencyUtil.formatCompact(finance.totalSaved),
-                      accent: const Color(0xFF0F9D8A),
+                      accent: AppColors.brandBlue,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -76,7 +77,7 @@ class SavingsPlansScreen extends StatelessWidget {
                       value: CurrencyUtil.formatCompact(
                         finance.monthlyCommitment,
                       ),
-                      accent: const Color(0xFF0C6170),
+                      accent: AppColors.brandBlueDark,
                     ),
                   ),
                 ],
@@ -89,8 +90,8 @@ class SavingsPlansScreen extends StatelessWidget {
                       ? null
                       : () => Navigator.pushNamed(context, AppRoutes.deposit),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF0F9D8A),
-                    side: const BorderSide(color: Color(0xFFBDE0DB)),
+                    foregroundColor: AppColors.brandBlue,
+                    side: BorderSide(color: AppColors.brandBlue.withAlpha(70)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
@@ -118,7 +119,7 @@ class SavingsPlansScreen extends StatelessWidget {
                     const Icon(
                       Icons.savings_rounded,
                       size: 40,
-                      color: Color(0xFF0F9D8A),
+                      color: AppColors.brandBlue,
                     ),
                     const SizedBox(height: 12),
                     Text(
@@ -133,7 +134,7 @@ class SavingsPlansScreen extends StatelessWidget {
                       onPressed: () =>
                           Navigator.pushNamed(context, AppRoutes.createPlan),
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF0F9D8A),
+                        backgroundColor: AppColors.brandBlue,
                         foregroundColor: Colors.white,
                       ),
                       child: Text(
